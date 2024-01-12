@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    container_name: web
+    build: .
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - "8080:80"
+      - "2222:22"
+    privileged: true
+    stdin_open: true
+    tty: true
+    cap_add:
+     - SYS_ADMIN
+  db:
+    container_name: db-host
+    image: postgres:15
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_DB: lapp-laravel
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P@SSW0RD
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/initdb:/docker-entrypoint-initdb.d
